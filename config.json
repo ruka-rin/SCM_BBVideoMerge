@@ -1,0 +1,5 @@
+{
+    "OutputFileName": "【{groupTitle}】 - {title}.mp4",
+    "OverwriteExistingOutputFile": false,
+    "CommandArgumets": "-c:v copy"
+}

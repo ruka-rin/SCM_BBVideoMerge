@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35617.110 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCM_BBVideoMerge", "SCM_BBVideoMerge.csproj", "{CFEE059A-560A-49DB-BBAE-BA2F08A38F2C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CFEE059A-560A-49DB-BBAE-BA2F08A38F2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFEE059A-560A-49DB-BBAE-BA2F08A38F2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFEE059A-560A-49DB-BBAE-BA2F08A38F2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFEE059A-560A-49DB-BBAE-BA2F08A38F2C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7E188E65-7FEE-4CE9-8FE2-FFFE2E8AC450}
+	EndGlobalSection
+EndGlobal
