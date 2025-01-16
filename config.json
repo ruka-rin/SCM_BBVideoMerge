@@ -1,5 +1,5 @@
 {
-    "OutputFileName": "【{groupTitle}】 - {title}.mp4",
+    "OutputFileName": "{{if groupId == bvid}}{{title}}.mp4{{else}}【{{groupTitle}}】 - {{title}}.mp4{{end}}",
     "OverwriteExistingOutputFile": false,
     "CommandArgumets": "-c:v copy"
 }

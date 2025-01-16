@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("SCM_BBVideoMerge")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("BBVideoMerge")]
+[assembly: AssemblyDescription("合并B站客户端缓存视频的右键菜单处理程序")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("MicroSoft")]
-[assembly: AssemblyProduct("SCM_BBVideoMerge")]
-[assembly: AssemblyCopyright("Copyright © MicroSoft 2025")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("BBVideoMerge")]
+[assembly: AssemblyCopyright("Copyright © ruka 2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

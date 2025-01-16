@@ -18,7 +18,7 @@ namespace SCM_BBVideoMerge
         public void ThreadProcess()
         {
             var process = new Process();
-            process.StartInfo.FileName = SCM_BBVideoMerge.FFmpegProgramName;
+            process.StartInfo.FileName = GlobalConstants.FFmpegProgramName;
             process.StartInfo.Arguments = Arguments;
             process.Start();
             process.WaitForExit();

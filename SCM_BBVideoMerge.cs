@@ -10,27 +10,24 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Text.RegularExpressions;
+using Scriban;
 
 namespace SCM_BBVideoMerge
 {
     [ComVisible(true)]
     [COMServerAssociation(AssociationType.Directory)]
+    [RegistrationName("BBVideoMerge")]
+    [DisplayName("BBVideoMerge")]
     public partial class SCM_BBVideoMerge : SharpContextMenu
     {
-        public const string VideoInfoFileName = "videoInfo.json";
-        public const string FFmpegProgramName = "ffmpeg.exe";
-        public const string FFmpegReleasesURL = "https://github.com/BtbN/FFmpeg-Builds/releases";
-        public const string ConfigFileName = "config.json";
-
-        public static Regex OutputNameRegex { get; } = new Regex(@"(?<!\\){(?<InfoField>\S+?[^\\])}");
+        //旧的文件名解析方法
+        //public static Regex OutputNameRegex { get; } = new Regex(@"(?<!\\){(?<InfoField>\S+?[^\\])}");
         public static string AssemblyDirectory { get; } = Path.GetDirectoryName(typeof(SCM_BBVideoMerge).Assembly.Location);
-        public static string ConfigPath { get; } = Path.Combine(AssemblyDirectory, ConfigFileName);
+        public static string ConfigPath { get; } = Path.Combine(AssemblyDirectory, GlobalConstants.ConfigFileName);
         public static string TempPath { get; } = Path.GetTempPath();
 
         public string SelectedItemPath => SelectedItemPaths.FirstOrDefault();
-        public string VideoInfoPath => Path.Combine(SelectedItemPath, VideoInfoFileName);
+        public string VideoInfoPath => Path.Combine(SelectedItemPath, GlobalConstants.VideoInfoFileName);
         public Configuration Config { get; private set; }
 
         public struct Configuration
@@ -70,7 +67,7 @@ namespace SCM_BBVideoMerge
             InitializeComponent();
 
             CMS_Main.Items.Add(TSS1);
-            if (EnvironmentEx.IsInPATH(FFmpegProgramName, out _))
+            if (EnvironmentEx.IsInPATH(GlobalConstants.FFmpegProgramName, out _))
             {
                 CMS_Main.Items.Add(TSMI_BBVideoMerge);
             }
@@ -92,7 +89,7 @@ namespace SCM_BBVideoMerge
             }
             else
             {
-                Config = new Configuration("{title}.mp4", false, "-c:v copy");
+                Config = new Configuration("{{if groupId == bvid}}{{title}}.mp4{{else}}【{{groupTitle}}】 - {{title}}.mp4{{end}}", false, "-c:v copy");
                 var jsonText = JsonConvert.SerializeObject(Config, Formatting.Indented);
                 File.WriteAllText(ConfigPath, jsonText);
             }
@@ -100,7 +97,7 @@ namespace SCM_BBVideoMerge
 
         private void TSMI_DownloadFFmpeg_Click(object sender, EventArgs e)
         {
-            Process.Start(FFmpegReleasesURL);
+            Process.Start(GlobalConstants.FFmpegReleasesURL);
         }
 
         private void TSMI_BBVideoMerge_Click(object sender, EventArgs e)
@@ -136,7 +133,8 @@ namespace SCM_BBVideoMerge
             argsString.AppendWithSpaces(Config.CommandArgumets);
 
             var jsonText = File.ReadAllText(VideoInfoPath);
-            var videoInfo = (JObject)JsonConvert.DeserializeObject(jsonText);
+            //var videoInfo = (JObject)JsonConvert.DeserializeObject(jsonText);
+            var videoInfo = JsonConvert.DeserializeObject<VideoInfo>(jsonText);
             var directoryInfo = new DirectoryInfo(SelectedItemPath);
             var parentPath = directoryInfo.Parent.FullName;
             var outputFileName = Config.OutputFileName.Trim();
@@ -147,11 +145,13 @@ namespace SCM_BBVideoMerge
             }
             else
             {
-                outputFileName = OutputNameRegex.Replace(outputFileName, match =>
-                {
-                    var field = match.Groups["InfoField"].Value;
-                    return Regex.Unescape(videoInfo[field]?.Value<string>() ?? field);
-                });
+                //旧的文件名解析方法
+                //outputFileName = OutputNameRegex.Replace(outputFileName, match =>
+                //{
+                //    var field = match.Groups["InfoField"].Value;
+                //    return Regex.Unescape(videoInfo[field]?.Value<string>() ?? field);
+                //});
+                outputFileName = Template.Parse(outputFileName).Render(videoInfo, m => m.Name);
             }
 
             argsString.AppendWithQuotes(Path.Combine(parentPath, PathEx.GetSafeFileName(outputFileName)));
